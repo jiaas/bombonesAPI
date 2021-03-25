@@ -8,6 +8,7 @@ app.get("/", (req, res, next) => {
   });
 });
 
+/*
 var currentDate = new Date().toJSON().slice(0, 10);
 //console.log(currentDate);
 
@@ -37,7 +38,7 @@ function getData(date) {
       console.log(keyArray)
 
     })
-}
+}*/
 
 
 app.get("/bombones", (req, res, next) => {
