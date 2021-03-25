@@ -8,9 +8,13 @@ app.get("/", (req, res, next) => {
   });
 });
 
+var currentDate = new Date().toJSON().slice(0, 10);
+//console.log(currentDate);
 
-/*
-function getData() {
+getData(currentDate)
+
+function getData(date) {
+  //console.log(date);
   const Gitrows = require('gitrows');
 
   // Init the GitRows client, you can provide options at this point, later or just run on the defaults
@@ -23,12 +27,9 @@ function getData() {
       //handle (Array/Object)data
       var keyArray = data.map(function (item) {
         return ({
-          //codigo_region: item["codigo_region"],
-          region_residencia: item["region_residencia"],
-          //codigo_comuna: item["codigo_comuna"],
-          comuna_residencia: item["comuna_residencia"],
+          comuna: item["comuna_residencia"],
           //Aqui hay que hacer una lógica, que tenemos que definir
-          '2021/03/24': item['2021-03-24']
+          etapa: item[date]
 
         });
       });
@@ -38,8 +39,6 @@ function getData() {
     })
 }
 
-getData();
-*/
 
 app.get("/bombones", (req, res, next) => {
   // If you use GitRows as a module:
@@ -53,15 +52,13 @@ app.get("/bombones", (req, res, next) => {
   gitrows.get(path)
     .then((data) => {
       //handle (Array/Object)data
+      var currentDate = new Date().toJSON().slice(0, 10);
 
       var objectArray = data.map(function (item) {
         return ({
-          //codigo_region: item["codigo_region"],
-          region_residencia: item["region_residencia"],
-          //codigo_comuna: item["codigo_comuna"],
-          comuna_residencia: item["comuna_residencia"],
+          comuna: item["comuna_residencia"],
           //Aqui hay que hacer una lógica, que tenemos que definir
-          '2021/03/24': item['2021-03-24']
+          etapa: item[currentDate]
 
         });
       });
