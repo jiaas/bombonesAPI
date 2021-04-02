@@ -81,7 +81,7 @@ app.get("/bombones/fallecidos", (req, res, next) => {
   // Init the GitRows client, you can provide options at this point, later or just run on the defaults
   const gitrows = new Gitrows();
 
-  let path = 'https://github.com/MinCiencia/Datos-COVID19/blob/master/output/producto5/TotalesNacionales_T.csv';
+  let path = 'https://github.com/NORA-CO/Datos-COVID19/blob/master/output/producto5/TotalesNacionales_T.csv';
 
   gitrows.get(path)
     .then((data) => {
@@ -90,41 +90,9 @@ app.get("/bombones/fallecidos", (req, res, next) => {
 
       var objectArray = data.map(function (item) {
         return ({
-          fallecidos: item["comuna_residencia"],
+          fallecidos: item["Fallecidos"],
           //Aqui hay que hacer una lógica, que tenemos que definir
-          fecha: item[currentDate]
-
-        });
-      });
-
-      return res.status(200).json({
-        message: objectArray,
-      });
-
-    })
-
-
-});
-
-app.get("/bombones/fallecidos", (req, res, next) => {
-  // If you use GitRows as a module:
-  const Gitrows = require('gitrows');
-
-  // Init the GitRows client, you can provide options at this point, later or just run on the defaults
-  const gitrows = new Gitrows();
-
-  let path = 'https://github.com/MinCiencia/Datos-COVID19/blob/master/output/producto5/TotalesNacionales_T.csv';
-
-  gitrows.get(path)
-    .then((data) => {
-      //handle (Array/Object)data
-      var currentDate = new Date().toJSON().slice(0, 10);
-
-      var objectArray = data.map(function (item) {
-        return ({
-          fallecidos: item["fallecidos"],
-          //Aqui hay que hacer una lógica, que tenemos que definir
-          fecha: item[currentDate]
+          fecha: item["Fecha"]
 
         });
       });
@@ -145,7 +113,7 @@ app.get("/bombones/casosTotales", (req, res, next) => {
   // Init the GitRows client, you can provide options at this point, later or just run on the defaults
   const gitrows = new Gitrows();
 
-  let path = 'https://github.com/MinCiencia/Datos-COVID19/blob/master/output/producto5/TotalesNacionales_T.csv';
+  let path = 'https://github.com/NORA-CO/Datos-COVID19/blob/master/output/producto5/TotalesNacionales_T.csv';
 
   gitrows.get(path)
     .then((data) => {
@@ -177,7 +145,7 @@ app.get("/bombones/recuperados", (req, res, next) => {
   // Init the GitRows client, you can provide options at this point, later or just run on the defaults
   const gitrows = new Gitrows();
 
-  let path = 'https://github.com/MinCiencia/Datos-COVID19/blob/master/output/producto5/TotalesNacionales_T.csv';
+  let path = 'https://github.com/NORA-CO/Datos-COVID19/blob/master/output/producto5/TotalesNacionales_T.csv';
 
   gitrows.get(path)
     .then((data) => {
@@ -186,7 +154,7 @@ app.get("/bombones/recuperados", (req, res, next) => {
 
       var objectArray = data.map(function (item) {
         return ({
-          fallecidos: item["Casos_confirmados_recuperados"],
+          recuperados: item["Casos_confirmados_recuperados"],
           //Aqui hay que hacer una lógica, que tenemos que definir
           fecha: item["fecha"]
 
@@ -210,7 +178,7 @@ app.get("/bombones/casosActivos", (req, res, next) => {
   // Init the GitRows client, you can provide options at this point, later or just run on the defaults
   const gitrows = new Gitrows();
 
-  let path = 'https://github.com/MinCiencia/Datos-COVID19/blob/master/output/producto5/TotalesNacionales_T.csv';
+  let path = 'https://github.com/NORA-CO/Datos-COVID19/blob/master/output/producto5/TotalesNacionales_T.csv';
 
   gitrows.get(path)
     .then((data) => {
@@ -219,7 +187,7 @@ app.get("/bombones/casosActivos", (req, res, next) => {
 
       var objectArray = data.map(function (item) {
         return ({
-          fallecidos: item["Casos_activos_confirmados"],
+          casosActivos: item["Casos_activos_confirmados"],
           //Aqui hay que hacer una lógica, que tenemos que definir
           fecha: item["fecha"]
 
