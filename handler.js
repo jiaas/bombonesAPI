@@ -154,9 +154,7 @@ app.get("/bombones/recuperados", (req, res, next) => {
 
       var objectArray = data.map(function (item) {
         return ({
-          recuperados: item["Casos_confirmados_recuperados"],
-          //Aqui hay que hacer una lógica, que tenemos que definir
-          fecha: item["fecha"]
+          item
 
         });
       })
@@ -187,10 +185,7 @@ app.get("/bombones/casosActivos", (req, res, next) => {
 
       var objectArray = data.map(function (item) {
         return ({
-          casosActivos: item["Casos_activos_confirmados"],
-          //Aqui hay que hacer una lógica, que tenemos que definir
-          fecha: item["fecha"]
-
+          item
         });
       }).find(element => element.fecha = "2021-04-02");;
 
