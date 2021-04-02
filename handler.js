@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 const serverless = require("serverless-http");
 const express = require("express");
 const app = express();
@@ -178,7 +177,6 @@ app.use((req, res, next) => {
 });
 
 module.exports.handler = serverless(app);
-=======
 const serverless = require("serverless-http");
 const express = require("express");
 const app = express();
@@ -275,7 +273,7 @@ app.get("/bombones/fallecidos", (req, res, next) => {
           //Aqui hay que hacer una lógica, que tenemos que definir
           fecha: item["Fecha"]
         });
-      }).find(element => element.fecha = "2021-04-02");
+      }).filter(element => element.fecha == "2021-04-02");
 
       return res.status(200).json({
         message: objectArray,
@@ -307,7 +305,7 @@ app.get("/bombones/casosTotales", (req, res, next) => {
           fecha: item["fecha"]
 
         });
-      }).find(element => element.fecha = "2021-04-02");
+      }).filter(element => element.fecha == "2021-04-02");
 
       return res.status(200).json({
         message: objectArray,
@@ -337,7 +335,7 @@ app.get("/bombones/recuperados", (req, res, next) => {
           item
 
         });
-      }).find(element => element.fecha = "2021-04-02");
+      }).filter(element => element.fecha == "2021-04-02");
 
       return res.status(200).json({
         message: objectArray,
@@ -366,7 +364,7 @@ app.get("/bombones/casosActivos", (req, res, next) => {
         return ({
           item
         });
-      }).find(element => element.fecha = "2021-04-02");
+      }).filter(element => element.fecha == "2021-04-02");
 
       return res.status(200).json({
         message: objectArray,
@@ -385,4 +383,3 @@ app.use((req, res, next) => {
 });
 
 module.exports.handler = serverless(app);
->>>>>>> b4df171c996a69efd990ec12fe26992ede8d1c32
