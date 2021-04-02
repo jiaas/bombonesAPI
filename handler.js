@@ -93,9 +93,8 @@ app.get("/bombones/fallecidos", (req, res, next) => {
           fallecidos: item["Fallecidos"],
           //Aqui hay que hacer una lógica, que tenemos que definir
           fecha: item["Fecha"]
-
         });
-      });
+      }).find(element => element.fecha = "2021-04-02");
 
       return res.status(200).json({
         message: objectArray,
@@ -122,12 +121,12 @@ app.get("/bombones/casosTotales", (req, res, next) => {
 
       var objectArray = data.map(function (item) {
         return ({
-          casosTotales: item["casos nuevos totales"],
+          casosTotales: item["Casos nuevos totales"],
           //Aqui hay que hacer una lógica, que tenemos que definir
           fecha: item["fecha"]
 
         });
-      }).find(element => element.fecha = "2021-04-02");;
+      }).find(element => element.fecha = "2021-04-02");
 
       return res.status(200).json({
         message: objectArray,
@@ -157,8 +156,7 @@ app.get("/bombones/recuperados", (req, res, next) => {
           item
 
         });
-      })
-      //.find(element => element.fecha = "2021-04-02");
+      }).find(element => element.fecha = "2021-04-02");
 
       return res.status(200).json({
         message: objectArray,
@@ -187,7 +185,7 @@ app.get("/bombones/casosActivos", (req, res, next) => {
         return ({
           item
         });
-      }).find(element => element.fecha = "2021-04-02");;
+      }).find(element => element.fecha = "2021-04-02");
 
       return res.status(200).json({
         message: objectArray,
