@@ -123,7 +123,7 @@ app.get("/bombones/casosTotales", (req, res, next) => {
         return ({
           casosTotales: item["Casos nuevos totales"],
           //Aqui hay que hacer una lógica, que tenemos que definir
-          fecha: item["fecha"]
+          fecha: item["Fecha"]
 
         });
       }).filter(element => element.fecha == "2021-04-02");
@@ -156,7 +156,7 @@ app.get("/bombones/recuperados", (req, res, next) => {
           item
 
         });
-      }).filter(element => element.fecha == "2021-04-02");
+      }).filter(element => element.Fecha == "2021-04-02");
 
       return res.status(200).json({
         message: objectArray,
