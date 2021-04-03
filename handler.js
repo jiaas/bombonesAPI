@@ -166,6 +166,39 @@ app.get("/bombones/casosActivos", (req, res, next) => {
 
 });
 
+app.get("/bombones/resumen", (req, res, next) => {
+  // If you use GitRows as a module:
+  const Gitrows = require('gitrows');
+
+  // Init the GitRows client, you can provide options at this point, later or just run on the defaults
+  const gitrows = new Gitrows();
+
+  let path = 'https://github.com/NORA-CO/Datos-COVID19/blob/master/output/producto5/TotalesNacionales_T.csv';
+
+  gitrows.get(path)
+    .then((data) => {
+      //handle (Array/Object)data
+      var currentDate = new Date().toISOString().slice(0, 10);
+
+      var objectArray = data.map(function (item) {
+        return ({
+          fallecidos: item["Fallecidos"],
+          casosActivos: item["Casos activos confirmados"],
+          casosRecuperados: item["Casos confirmados recuperados"],
+          casosDiarios: item["Casos nuevos totales"],
+          //Aqui hay que hacer una lógica, que tenemos que definir
+          fecha: item["Fecha"]
+        });
+      }).filter(element => element.fecha == "2021-04-02");
+
+      return res.status(200).json({
+        message: objectArray,
+      });
+
+    })
+
+
+});
 
 app.use((req, res, next) => {
   return res.status(404).json({
