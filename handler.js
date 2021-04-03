@@ -61,7 +61,7 @@ app.get("/bombones/fallecidos", (req, res, next) => {
           //Aqui hay que hacer una lógica, que tenemos que definir
           fecha: item["Fecha"]
         });
-      }).filter(element => element.fecha == currentDate);
+      }).filter(element => element.fecha == "2021-04-02");
 
       return res.status(200).json({
         message: objectArray,
@@ -93,7 +93,7 @@ app.get("/bombones/casosTotales", (req, res, next) => {
           fecha: item["Fecha"]
 
         });
-      }).filter(element => element.fecha == currentDate);
+      }).filter(element => element.fecha == "2021-04-02");
 
       return res.status(200).json({
         message: objectArray,
@@ -124,7 +124,7 @@ app.get("/bombones/recuperados", (req, res, next) => {
           //Aqui hay que hacer una lógica, que tenemos que definir
           fecha: item["Fecha"]
         });
-      }).filter(element => element.Fecha == currentDate);
+      }).filter(element => element.Fecha == "2021-04-02");
 
       return res.status(200).json({
         message: objectArray,
@@ -155,7 +155,7 @@ app.get("/bombones/casosActivos", (req, res, next) => {
           //Aqui hay que hacer una lógica, que tenemos que definir
           fecha: item["Fecha"]
         });
-      }).filter(element => element.fecha == currentDate);
+      }).filter(element => element.fecha == "2021-04-02");
 
       return res.status(200).json({
         message: objectArray,
