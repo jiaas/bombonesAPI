@@ -8,39 +8,6 @@ app.get("/", (req, res, next) => {
   });
 });
 
-/*
-var currentDate = new Date().toJSON().slice(0, 10);
-//console.log(currentDate);
-
-getData(currentDate)
-
-function getData(date) {
-  //console.log(date);
-  const Gitrows = require('gitrows');
-
-  // Init the GitRows client, you can provide options at this point, later or just run on the defaults
-  const gitrows = new Gitrows();
-
-  let path = 'https://github.com/NORA-CO/Datos-COVID19/blob/master/output/producto74/paso_a_paso.csv';
-
-  gitrows.get(path)
-    .then((data) => {
-      //handle (Array/Object)data
-      var keyArray = data.map(function (item) {
-        return ({
-          comuna: item["comuna_residencia"],
-          //Aqui hay que hacer una lógica, que tenemos que definir
-          etapa: item[date]
-
-        });
-      });
-
-      console.log(keyArray)
-
-    })
-}*/
-
-
 app.get("/bombones/comunas", (req, res, next) => {
   // If you use GitRows as a module:
   const Gitrows = require('gitrows');
@@ -53,7 +20,7 @@ app.get("/bombones/comunas", (req, res, next) => {
   gitrows.get(path)
     .then((data) => {
       //handle (Array/Object)data
-      var currentDate = new Date().toJSON().slice(0, 10);
+      var currentDate = new Date().toISOString().slice(0, 10);
 
       var objectArray = data.map(function (item) {
         return ({
@@ -86,7 +53,7 @@ app.get("/bombones/fallecidos", (req, res, next) => {
   gitrows.get(path)
     .then((data) => {
       //handle (Array/Object)data
-      var currentDate = new Date().toJSON().slice(0, 10);
+      var currentDate = new Date().toISOString().slice(0, 10);
 
       var objectArray = data.map(function (item) {
         return ({
@@ -94,7 +61,7 @@ app.get("/bombones/fallecidos", (req, res, next) => {
           //Aqui hay que hacer una lógica, que tenemos que definir
           fecha: item["Fecha"]
         });
-      }).filter(element => element.fecha == "2021-04-02");
+      }).filter(element => element.fecha == currentDate);
 
       return res.status(200).json({
         message: objectArray,
@@ -117,7 +84,7 @@ app.get("/bombones/casosTotales", (req, res, next) => {
   gitrows.get(path)
     .then((data) => {
       //handle (Array/Object)data
-      var currentDate = new Date().toJSON().slice(0, 10);
+      var currentDate = new Date().toISOString().slice(0, 10);
 
       var objectArray = data.map(function (item) {
         return ({
@@ -126,7 +93,7 @@ app.get("/bombones/casosTotales", (req, res, next) => {
           fecha: item["Fecha"]
 
         });
-      }).filter(element => element.fecha == "2021-04-02");
+      }).filter(element => element.fecha == currentDate);
 
       return res.status(200).json({
         message: objectArray,
@@ -149,14 +116,15 @@ app.get("/bombones/recuperados", (req, res, next) => {
   gitrows.get(path)
     .then((data) => {
       //handle (Array/Object)data
-      var currentDate = new Date().toJSON().slice(0, 10);
+      var currentDate = new Date().toISOString().slice(0, 10);
 
       var objectArray = data.map(function (item) {
         return ({
-          item
-
+          casosRecuperados: item["Casos confirmados recuperados"],
+          //Aqui hay que hacer una lógica, que tenemos que definir
+          fecha: item["Fecha"]
         });
-      }).filter(element => element.Fecha == "2021-04-02");
+      }).filter(element => element.Fecha == currentDate);
 
       return res.status(200).json({
         message: objectArray,
@@ -179,13 +147,15 @@ app.get("/bombones/casosActivos", (req, res, next) => {
   gitrows.get(path)
     .then((data) => {
       //handle (Array/Object)data
-      var currentDate = new Date().toJSON().slice(0, 10);
+      var currentDate = new Date().toISOString().slice(0, 10);
 
       var objectArray = data.map(function (item) {
         return ({
-          item
+          casosActivos: item["Casos activos confirmados"],
+          //Aqui hay que hacer una lógica, que tenemos que definir
+          fecha: item["Fecha"]
         });
-      }).filter(element => element.fecha == "2021-04-02");
+      }).filter(element => element.fecha == currentDate);
 
       return res.status(200).json({
         message: objectArray,
