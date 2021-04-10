@@ -209,7 +209,7 @@ app.get("/bombones/resumenComuna", (req, res, next) => {
 
   var currentDate = new Date().toISOString().slice(0, 10);
 
-  let path = 'https://github.com/NORA-CO/Datos-COVID19/blob/master/output/producto2/' + '2021-04-02' + 'CasosConfirmados.csv';
+  let path = 'https://github.com/NORA-CO/Datos-COVID19/blob/master/output/producto2/' + '2021-04-02-' + 'CasosConfirmados.csv';
 
   //var objectArray = ({
   //      casosActivos: "abcd",
@@ -226,9 +226,9 @@ app.get("/bombones/resumenComuna", (req, res, next) => {
           casosActivos: item["Casos Confirmados"],
           //Aqui hay que hacer una lógica, que tenemos que definir
           fecha: currentDate,
-          comuna: item["comuna"]
+          comuna: item["Comuna"]
         });
-      }).filter(element => element.comuna == "penalolen");
+      });//.filter(element => element.comuna == "penalolen");
 
       return res.status(200).json({
         message: objectArray,
