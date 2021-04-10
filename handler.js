@@ -221,7 +221,7 @@ app.get("/bombones/resumenComuna", (req, res, next) => {
     .then((data) => {
       //handle (Array/Object)data
 
-      objectArray = data.map(function (item) {
+      var objectArrayCasos = data.map(function (item) {
         return ({
           casosActivos: item["Casos Confirmados"],
           //Aqui hay que hacer una lógica, que tenemos que definir
@@ -229,6 +229,8 @@ app.get("/bombones/resumenComuna", (req, res, next) => {
           comuna: item["Comuna"]
         });
       }).filter(element => element.comuna == "Penalolen");
+      
+      
 
       return res.status(200).json({
         message: objectArray,
