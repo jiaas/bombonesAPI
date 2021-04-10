@@ -228,7 +228,7 @@ app.get("/bombones/resumenComuna", (req, res, next) => {
           fecha: currentDate,
           comuna: item["Comuna"]
         });
-      }).filter(element => element.comuna == "penalolen");
+      }).filter(element => element.comuna == "Penalolen");
 
       return res.status(200).json({
         message: objectArray,
