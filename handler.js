@@ -223,10 +223,7 @@ app.get("/bombones/resumenComuna", (req, res, next) => {
 
       new objectArray = data.map(function (item) {
         return ({
-          casosActivos: item["Casos Confirmados"],
-          //Aqui hay que hacer una lógica, que tenemos que definir
-          fecha: currentDate,
-          comuna: item["Comuna"]
+          fecha: currentDate
         });
       });//.filter(element => element.comuna == "penalolen");
 
