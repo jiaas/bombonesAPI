@@ -207,9 +207,9 @@ app.get("/bombones/resumenComuna", (req, res, next) => {
   // Init the GitRows client, you can provide options at this point, later or just run on the defaults
   const gitrows = new Gitrows();
 
-  var currentDate = new Date().toISOString().slice(0, 10);
+  var currentDate = new Date();
 
-  let path = 'https://github.com/NORA-CO/Datos-COVID19/blob/master/output/producto2/' + '2021-04-02-' + 'CasosConfirmados.csv';
+  let path = 'https://github.com/NORA-CO/Datos-COVID19/blob/master/output/producto2/' + currentDate.toISOString().slice(0, 10) + '-CasosConfirmados.csv';
 
   var comuna = req.query.comuna;
 
@@ -218,29 +218,32 @@ app.get("/bombones/resumenComuna", (req, res, next) => {
         //Aqui hay que hacer una lógica, que tenemos que definir
         fecha: "2021-04-02",
         comuna: "penalolen"})
+  var resta = 0;
+  do{
+    var fechaISO = currentDate.toISOString().slice(0, 10);
+    var fechaArchivoISO = (currentDate-resta).toISOString().slice(0, 10);
+    gitrows.get(path.replace(fechaISO,""))
+      .then((data) => {
+        //handle (Array/Object)data
 
-  gitrows.get(path)
-    .then((data) => {
-      //handle (Array/Object)data
+        objectArray = data.map(function (item) {
+          return ({
+            casosActivos: item["Casos Confirmados"],
+            //Aqui hay que hacer una lógica, que tenemos que definir
+            fecha: currentDate,
+            comuna: item["Comuna"]
+          });
+        }).filter(element => element.comuna == comuna);
 
-      objectArray = data.map(function (item) {
-        return ({
-          casosActivos: item["Casos Confirmados"],
-          //Aqui hay que hacer una lógica, que tenemos que definir
-          fecha: currentDate,
-          comuna: item["Comuna"]
-        });
-      }).filter(element => element.comuna == comuna);
-      
-      
-
-      return res.status(200).json({
-        message: objectArray,
+        resta = resta -3
+      }).catch( (error) => {
+        resta = resta - 1;
       });
-
-    })
-
-
+  }while(resta < -2)
+  
+  return res.status(200).json({
+    message: objectArray,
+  });
 });
 
 app.get("/bombones/resumenPrueba", (req, res, next) => {
