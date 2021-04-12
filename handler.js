@@ -209,7 +209,9 @@ app.get("/bombones/resumenComuna", (req, res, next) => {
 
   var currentDate = new Date();
 
-  let path = 'https://github.com/NORA-CO/Datos-COVID19/blob/master/output/producto2/' + currentDate.toISOString().slice(0, 10) + '-CasosConfirmados.csv';
+  var fechaISO = currentDate.toISOString().slice(0, 10);
+
+  let path = 'https://github.com/NORA-CO/Datos-COVID19/blob/master/output/producto2/' + fechaISO + '-CasosConfirmados.csv';
 
   var comuna = req.query.comuna;
 
@@ -220,9 +222,8 @@ app.get("/bombones/resumenComuna", (req, res, next) => {
         comuna: "penalolen"})
   var resta = 0;
   do{
-    var fechaISO = currentDate.toISOString().slice(0, 10);
-    var fechaArchivoISO = (currentDate-resta).toISOString().slice(0, 10);
-    gitrows.get(path.replace(fechaISO,""))
+    var fechaArchivoISO = (currentDate + resta).toISOString().slice(0, 10);
+    gitrows.get(path.replace(fechaISO,fechaArchivoISO))
       .then((data) => {
         //handle (Array/Object)data
 
@@ -230,7 +231,7 @@ app.get("/bombones/resumenComuna", (req, res, next) => {
           return ({
             casosActivos: item["Casos Confirmados"],
             //Aqui hay que hacer una lógica, que tenemos que definir
-            fecha: currentDate,
+            fecha: fechaArchivoISO,
             comuna: item["Comuna"]
           });
         }).filter(element => element.comuna == comuna);
