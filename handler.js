@@ -211,6 +211,8 @@ app.get("/bombones/resumenComuna", (req, res, next) => {
 
   let path = 'https://github.com/NORA-CO/Datos-COVID19/blob/master/output/producto2/' + '2021-04-02-' + 'CasosConfirmados.csv';
 
+  var comuna = req.query.comuna;
+
   var objectArray = ({
         casosActivos: "abcd",
         //Aqui hay que hacer una lógica, que tenemos que definir
@@ -221,14 +223,14 @@ app.get("/bombones/resumenComuna", (req, res, next) => {
     .then((data) => {
       //handle (Array/Object)data
 
-      var objectArrayCasos = data.map(function (item) {
+      objectArray = data.map(function (item) {
         return ({
           casosActivos: item["Casos Confirmados"],
           //Aqui hay que hacer una lógica, que tenemos que definir
           fecha: currentDate,
           comuna: item["Comuna"]
         });
-      }).filter(element => element.comuna == "Penalolen");
+      }).filter(element => element.comuna == comuna);
       
       
 
