@@ -241,6 +241,13 @@ app.get("/bombones/resumenComuna", (req, res, next) => {
 
 });
 
+app.get("/bombones/resumenPrueba", (req, res, next) => {
+  return res.status(200).json({
+    message: req.query.comuna
+  });
+});
+
+
 app.use((req, res, next) => {
   return res.status(404).json({
     error: "Not Found",
