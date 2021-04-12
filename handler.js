@@ -245,6 +245,8 @@ app.get("/bombones/resumenComuna", (req, res, next) => {
       });
   }while(resta < -2)
   
+  objectArray.casosActivos = resta;
+
   return res.status(200).json({
     message: objectArray,
   });
