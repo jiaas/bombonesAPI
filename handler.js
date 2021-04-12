@@ -222,7 +222,9 @@ app.get("/bombones/resumenComuna", (req, res, next) => {
         comuna: "penalolen"})
   var resta = 0;
   do{
-    var fechaArchivoISO = (currentDate + resta).toISOString().slice(0, 10);
+    var fechaArchivo = new Date();
+    fechaArchivo.setDate(currentDate.getDate() + resta);
+    var fechaArchivoISO = fechaArchivo.toISOString().slice(0, 10);
     gitrows.get(path.replace(fechaISO,fechaArchivoISO))
       .then((data) => {
         //handle (Array/Object)data
