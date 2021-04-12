@@ -240,10 +240,9 @@ app.get("/bombones/resumenComuna", (req, res, next) => {
 
         resta = resta -3
       }).catch( (error) => {
-        resta = resta + 3;
         resta = resta - 1;
       });
-  }while(resta < -2)
+  }while(resta > -2)
   
   objectArray.casosActivos = resta;
 
