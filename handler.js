@@ -262,16 +262,16 @@ app.get("/bombones/resumenPrueba", (req, res, next) => {
 
   // Init the GitRows client, you can provide options at this point, later or just run on the defaults
   const gitrows = new Gitrows();
-  
+
   var objectArray = ({
     casosActivos: "abcd",
     //Aqui hay que hacer una lógica, que tenemos que definir
     fecha: "2021-04-02",
     comuna: "penalolen"})
-  gitrows.get("https://github.com/NORA-CO/Datos-COVID19/blob/master/output/producto2/2021-04-12-CasosConfirmados.csv")
+  gitrows.get("https://github.com/NORA-CO/Datos-COVID19/blob/master/output/producto2/2021-04-09-CasosConfirmados.csv")
     .then((data) => {
       objectArray.casosActivos = "paso";
-    }).catch( (error) => {
+    }).catch((error) => {
       objectArray.casosActivos = "error";
     });
   return res.status(200).json({
