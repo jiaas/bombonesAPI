@@ -221,6 +221,7 @@ app.get("/bombones/resumenComuna", (req, res, next) => {
         fecha: "2021-04-02",
         comuna: "penalolen"})
   var resta = -4;
+
   do{
     var fechaArchivo = new Date();
     fechaArchivo.setDate(currentDate.getDate() + resta);
@@ -257,33 +258,26 @@ app.get("/bombones/resumenComuna", (req, res, next) => {
 });
 
 app.get("/bombones/resumenPrueba", (req, res, next) => {
+  return res.status(200).json({
+    message: asyncCall("https://github.com/NORA-CO/Datos-COVID19/blob/master/output/producto2/2021-04-09-CasosConfirmados.csv"),
+  });
+});
+
+async function asyncCall(path) {
   // If you use GitRows as a module:
   const Gitrows = require('gitrows');
 
   // Init the GitRows client, you can provide options at this point, later or just run on the defaults
   const gitrows = new Gitrows();
-
-  var objectArray = ({
-    casosActivos: "abcd",
-    //Aqui hay que hacer una lógica, que tenemos que definir
-    fecha: "2021-04-02",
-    comuna: "penalolen"});
-  let path = 'https://github.com/NORA-CO/Datos-COVID19/blob/master/output/producto2/2021-04-09-CasosConfirmados.csv';
   
   gitrows.get(path)
     .then((data) => {
-      objectArray.comuna = "paso";
-      return res.status(200).json({
-        message: objectArray,
-      });
-    }).catch((error) => {
-      objectArray.comuna = "error";
-      return res.status(200).json({
-        message: objectArray,
-      });
+      return await data;
+    })
+    .catch((error) => {
+      return await null;
     });
-});
-
+}
 
 app.use((req, res, next) => {
   return res.status(404).json({
