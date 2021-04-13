@@ -272,13 +272,16 @@ app.get("/bombones/resumenPrueba", (req, res, next) => {
   
   gitrows.get(path)
     .then((data) => {
-      objectArray.casosActivos = "paso";
+      objectArray.comuna = "paso";
+      return res.status(200).json({
+        message: objectArray,
+      });
     }).catch((error) => {
-      objectArray.casosActivos = "error";
+      objectArray.comuna = "error";
+      return res.status(200).json({
+        message: objectArray,
+      });
     });
-  return res.status(200).json({
-    message: objectArray,
-  });
 });
 
 
