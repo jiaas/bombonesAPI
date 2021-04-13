@@ -220,7 +220,7 @@ app.get("/bombones/resumenComuna", (req, res, next) => {
         //Aqui hay que hacer una lógica, que tenemos que definir
         fecha: "2021-04-02",
         comuna: "penalolen"})
-  var resta = -3;
+  var resta = -4;
   do{
     var fechaArchivo = new Date();
     fechaArchivo.setDate(currentDate.getDate() + resta);
@@ -248,7 +248,7 @@ app.get("/bombones/resumenComuna", (req, res, next) => {
   var fechaArchivo2 = new Date();
   fechaArchivo2.setDate(currentDate.getDate() + resta);
   var fechaArchivoISO2 = fechaArchivo.toISOString().slice(0, 10);
-  objectArray.comuna = path.replace(fechaISO,fechaArchivoISO2);
+  objectArray.comuna = path;//path.replace(fechaISO,fechaArchivoISO2);
   objectArray.fecha = fechaArchivoISO2;
 
   return res.status(200).json({
