@@ -248,7 +248,7 @@ app.get("/bombones/resumenComuna", (req, res, next) => {
   var fechaArchivo2 = new Date();
   fechaArchivo2.setDate(currentDate.getDate() + resta);
   var fechaArchivoISO2 = fechaArchivo.toISOString().slice(0, 10);
-  //objectArray.comuna = path.replace(fechaISO,fechaArchivoISO2);
+  objectArray.comuna = path.replace(fechaISO,fechaArchivoISO2);
   objectArray.fecha = fechaArchivoISO2;
 
   return res.status(200).json({
