@@ -244,12 +244,12 @@ app.get("/bombones/resumenComuna", (req, res, next) => {
       });
   }while(resta < -4)
   
-  objectArray.casosActivos = resta;
-  var fechaArchivo2 = new Date();
-  fechaArchivo2.setDate(currentDate.getDate() + resta);
-  var fechaArchivoISO2 = fechaArchivo.toISOString().slice(0, 10);
-  objectArray.comuna = path;//path.replace(fechaISO,fechaArchivoISO2);
-  objectArray.fecha = fechaArchivoISO2;
+  //objectArray.casosActivos = resta;
+  //var fechaArchivo2 = new Date();
+  //fechaArchivo2.setDate(currentDate.getDate() + resta);
+  //var fechaArchivoISO2 = fechaArchivo.toISOString().slice(0, 10);
+  //objectArray.comuna = path;//path.replace(fechaISO,fechaArchivoISO2);
+  //objectArray.fecha = fechaArchivoISO2;
 
   return res.status(200).json({
     message: objectArray,
@@ -257,8 +257,19 @@ app.get("/bombones/resumenComuna", (req, res, next) => {
 });
 
 app.get("/bombones/resumenPrueba", (req, res, next) => {
+  var objectArray = ({
+    casosActivos: "abcd",
+    //Aqui hay que hacer una lógica, que tenemos que definir
+    fecha: "2021-04-02",
+    comuna: "penalolen"})
+  gitrows.get("https://github.com/NORA-CO/Datos-COVID19/blob/master/output/producto2/2021-04-13-CasosConfirmados.csv")
+    .then((data) => {
+      objectArray.casosActivos = "paso";
+    }).catch( (error) => {
+      objectArray.casosActivos = "paso";
+    });
   return res.status(200).json({
-    message: req.query.comuna
+    message: objectArray,
   });
 });
 
