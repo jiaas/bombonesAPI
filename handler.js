@@ -220,7 +220,7 @@ app.get("/bombones/resumenComuna", (req, res, next) => {
         //Aqui hay que hacer una lógica, que tenemos que definir
         fecha: "2021-04-02",
         comuna: "penalolen"})
-  var resta = 0;
+  var resta = -3;
   do{
     var fechaArchivo = new Date();
     fechaArchivo.setDate(currentDate.getDate() + resta);
@@ -238,11 +238,11 @@ app.get("/bombones/resumenComuna", (req, res, next) => {
           });
         }).filter(element => element.comuna == comuna);
 
-        resta = resta -3
+        resta = resta - 3;
       }).catch( (error) => {
         resta = resta - 1;
       });
-  }while(resta > -2)
+  }while(resta > -4)
   
   objectArray.casosActivos = resta;
 
