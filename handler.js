@@ -242,9 +242,14 @@ app.get("/bombones/resumenComuna", (req, res, next) => {
       }).catch( (error) => {
         resta = resta - 1;
       });
-  }while(resta > -4)
+  }while(resta < -4)
   
   objectArray.casosActivos = resta;
+  var fechaArchivo2 = new Date();
+  fechaArchivo2.setDate(currentDate.getDate() + resta);
+  var fechaArchivoISO2 = fechaArchivo.toISOString().slice(0, 10);
+  objectArray.comuna = path.replace(fechaISO,fechaArchivoISO2);
+  objectArray.fecha = fechaArchivoISO2;
 
   return res.status(200).json({
     message: objectArray,
