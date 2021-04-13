@@ -267,8 +267,10 @@ app.get("/bombones/resumenPrueba", (req, res, next) => {
     casosActivos: "abcd",
     //Aqui hay que hacer una lógica, que tenemos que definir
     fecha: "2021-04-02",
-    comuna: "penalolen"})
-  gitrows.get("https://github.com/NORA-CO/Datos-COVID19/blob/master/output/producto2/2021-04-09-CasosConfirmados.csv")
+    comuna: "penalolen"});
+  let path = 'https://github.com/NORA-CO/Datos-COVID19/blob/master/output/producto2/2021-04-09-CasosConfirmados.csv';
+  
+  gitrows.get(path)
     .then((data) => {
       objectArray.casosActivos = "paso";
     }).catch((error) => {
