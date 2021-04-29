@@ -300,8 +300,4 @@ app.use((req, res, next) => {
   });
 });
 
-app.listen(3003, () => {
-  console.log("El servidor está inicializado en el puerto 3003");
- });
-
 module.exports.handler = serverless(app);
