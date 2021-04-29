@@ -200,7 +200,7 @@ app.get("/bombones/resumen", (req, res, next) => {
 
 });
 
-app.get("/bombones/resumenComuna", (req, res, next) => {
+app.get("/bombones/resumenComuna", async (req, res, next) => {
   // If you use GitRows as a module:
   const Gitrows = require('gitrows');
 
@@ -208,6 +208,7 @@ app.get("/bombones/resumenComuna", (req, res, next) => {
   const gitrows = new Gitrows();
 
   var currentDate = new Date();
+  currentDate.setTime(currentDate.getTime() - (4*60*60*1000));
 
   var fechaISO = currentDate.toISOString().slice(0, 10);
 
@@ -215,52 +216,64 @@ app.get("/bombones/resumenComuna", (req, res, next) => {
 
   var comuna = req.query.comuna;
 
-  var objectArray = ({
-        casosActivos: "abcd",
-        //Aqui hay que hacer una lógica, que tenemos que definir
-        fecha: "2021-04-02",
-        comuna: "penalolen"})
-  var resta = -4;
+  var mensaje = {
+    casosConfirmados: "0",
+    casosActivos: "0",
+    fallecidos: "0"
+  };
 
-  do{
-    var fechaArchivo = new Date();
+  var fechaArchivo = new Date();
+  var fechaArchivoISO = "";
+  var resta = 0;
+  var respuesta = null;
+
+  while(respuesta == null){
     fechaArchivo.setDate(currentDate.getDate() + resta);
-    var fechaArchivoISO = fechaArchivo.toISOString().slice(0, 10);
-    gitrows.get(path.replace(fechaISO,fechaArchivoISO))
-      .then((data) => {
-        //handle (Array/Object)data
+    fechaArchivoISO = fechaArchivo.toISOString().slice(0, 10);
+    resta = resta - 1;
+    var respuesta = await asyncCall(path.replace(fechaISO,fechaArchivoISO));
+    if(respuesta != null){
+      mensaje.casosConfirmados = 
+      respuesta.map(function (item) {
+        return ({
+          casosConfirmados: item["Casos Confirmados"],
+          comuna: item["Comuna"]
+        });
+      }).filter(element => element.comuna == comuna)[0].casosConfirmados;
+    };
+  };
 
-        objectArray = data.map(function (item) {
-          return ({
-            casosActivos: item["Casos Confirmados"],
-            //Aqui hay que hacer una lógica, que tenemos que definir
-            fecha: fechaArchivoISO,
-            comuna: item["Comuna"]
-          });
-        }).filter(element => element.comuna == comuna);
-
-        resta = resta - 3;
-      }).catch( (error) => {
-        resta = resta - 1;
+  path = 'https://github.com/MinCiencia/Datos-COVID19/blob/master/output/producto38/CasosFallecidosPorComuna.csv'
+  respuesta = await asyncCall(path);
+  mensaje.fallecidos = 
+    respuesta.map(function (item) {
+      return ({
+        fallecidos: item[fechaArchivoISO],
+        comuna: item["Comuna"]
       });
-  }while(resta < -4)
-  
-  //objectArray.casosActivos = resta;
-  //var fechaArchivo2 = new Date();
-  //fechaArchivo2.setDate(currentDate.getDate() + resta);
-  //var fechaArchivoISO2 = fechaArchivo.toISOString().slice(0, 10);
-  //objectArray.comuna = path;//path.replace(fechaISO,fechaArchivoISO2);
-  //objectArray.fecha = fechaArchivoISO2;
+    }).filter(element => element.comuna == comuna)[0].fallecidos;
 
+    path = 'https://github.com/MinCiencia/Datos-COVID19/blob/master/output/producto25/CasosActualesPorComuna.csv'
+    respuesta = await asyncCall(path);
+    mensaje.casosActivos = 
+      respuesta.map(function (item) {
+        return ({
+          casosActivos: item[fechaArchivoISO],
+          comuna: item["Comuna"]
+        });
+      }).filter(element => element.comuna == comuna)[0].casosActivos;
   return res.status(200).json({
-    message: objectArray,
+    message: mensaje,
   });
 });
 
-app.get("/bombones/resumenPrueba", (req, res, next) => {
+app.get("/bombones/resumenPrueba", async (req, res, next) => {
+
+  var mensaje = await asyncCall(req.query.path);
   return res.status(200).json({
-    message: asyncCall("https://github.com/NORA-CO/Datos-COVID19/blob/master/output/producto2/2021-04-09-CasosConfirmados.csv"),
+    message: mensaje,
   });
+
 });
 
 async function asyncCall(path) {
@@ -270,19 +283,25 @@ async function asyncCall(path) {
   // Init the GitRows client, you can provide options at this point, later or just run on the defaults
   const gitrows = new Gitrows();
   
-  gitrows.get(path)
+  var objectArray = null;
+
+  await gitrows.get(path)
     .then((data) => {
-      return await data;
+      objectArray = data;
     })
     .catch((error) => {
-      return await null;
+      objectArray = null;
     });
+  return objectArray
 }
-
 app.use((req, res, next) => {
   return res.status(404).json({
     error: "Not Found",
   });
 });
+
+app.listen(3003, () => {
+  console.log("El servidor está inicializado en el puerto 3003");
+ });
 
 module.exports.handler = serverless(app);
