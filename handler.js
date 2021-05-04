@@ -8,198 +8,6 @@ app.get("/", (req, res, next) => {
   });
 });
 
-app.get("/bombones/comunas", (req, res, next) => {
-  // If you use GitRows as a module:
-  const Gitrows = require('gitrows');
-
-  // Init the GitRows client, you can provide options at this point, later or just run on the defaults
-  const gitrows = new Gitrows();
-
-  let path = 'https://github.com/NORA-CO/Datos-COVID19/blob/master/output/producto74/paso_a_paso.csv';
-
-  gitrows.get(path)
-    .then((data) => {
-      //handle (Array/Object)data
-      var currentDate = new Date().toISOString().slice(0, 10);
-
-      var objectArray = data.map(function (item) {
-        return ({
-          comuna: item["comuna_residencia"],
-          //Aqui hay que hacer una lógica, que tenemos que definir
-          etapa: item[currentDate]
-
-        });
-      });
-
-      return res.status(200).json({
-        message: objectArray,
-      });
-
-    })
-
-
-});
-
-
-app.get("/bombones/fallecidos", (req, res, next) => {
-  // If you use GitRows as a module:
-  const Gitrows = require('gitrows');
-
-  // Init the GitRows client, you can provide options at this point, later or just run on the defaults
-  const gitrows = new Gitrows();
-
-  let path = 'https://github.com/NORA-CO/Datos-COVID19/blob/master/output/producto5/TotalesNacionales_T.csv';
-
-  gitrows.get(path)
-    .then((data) => {
-      //handle (Array/Object)data
-      var currentDate = new Date().toISOString().slice(0, 10);
-
-      var objectArray = data.map(function (item) {
-        return ({
-          fallecidos: item["Fallecidos"],
-          //Aqui hay que hacer una lógica, que tenemos que definir
-          fecha: item["Fecha"]
-        });
-      }).filter(element => element.fecha == "2021-04-02");
-
-      return res.status(200).json({
-        message: objectArray,
-      });
-
-    })
-
-
-});
-
-app.get("/bombones/casosTotales", (req, res, next) => {
-  // If you use GitRows as a module:
-  const Gitrows = require('gitrows');
-
-  // Init the GitRows client, you can provide options at this point, later or just run on the defaults
-  const gitrows = new Gitrows();
-
-  let path = 'https://github.com/NORA-CO/Datos-COVID19/blob/master/output/producto5/TotalesNacionales_T.csv';
-
-  gitrows.get(path)
-    .then((data) => {
-      //handle (Array/Object)data
-      var currentDate = new Date().toISOString().slice(0, 10);
-
-      var objectArray = data.map(function (item) {
-        return ({
-          casosTotales: item["Casos nuevos totales"],
-          //Aqui hay que hacer una lógica, que tenemos que definir
-          fecha: item["Fecha"]
-
-        });
-      }).filter(element => element.fecha == "2021-04-02");
-
-      return res.status(200).json({
-        message: objectArray,
-      });
-
-    })
-
-
-});
-
-app.get("/bombones/recuperados", (req, res, next) => {
-  // If you use GitRows as a module:
-  const Gitrows = require('gitrows');
-
-  // Init the GitRows client, you can provide options at this point, later or just run on the defaults
-  const gitrows = new Gitrows();
-
-  let path = 'https://github.com/NORA-CO/Datos-COVID19/blob/master/output/producto5/TotalesNacionales_T.csv';
-
-  gitrows.get(path)
-    .then((data) => {
-      //handle (Array/Object)data
-      var currentDate = new Date().toISOString().slice(0, 10);
-
-      var objectArray = data.map(function (item) {
-        return ({
-          casosRecuperados: item["Casos confirmados recuperados"],
-          //Aqui hay que hacer una lógica, que tenemos que definir
-          fecha: item["Fecha"]
-        });
-      }).filter(element => element.fecha == "2021-04-02");
-
-      return res.status(200).json({
-        message: objectArray,
-      });
-
-    })
-
-
-});
-
-app.get("/bombones/casosActivos", (req, res, next) => {
-  // If you use GitRows as a module:
-  const Gitrows = require('gitrows');
-
-  // Init the GitRows client, you can provide options at this point, later or just run on the defaults
-  const gitrows = new Gitrows();
-
-  let path = 'https://github.com/NORA-CO/Datos-COVID19/blob/master/output/producto5/TotalesNacionales_T.csv';
-
-  gitrows.get(path)
-    .then((data) => {
-      //handle (Array/Object)data
-      var currentDate = new Date().toISOString().slice(0, 10);
-
-      var objectArray = data.map(function (item) {
-        return ({
-          casosActivos: item["Casos activos confirmados"],
-          //Aqui hay que hacer una lógica, que tenemos que definir
-          fecha: item["Fecha"]
-        });
-      }).filter(element => element.fecha == "2021-04-02");
-
-      return res.status(200).json({
-        message: objectArray,
-      });
-
-    })
-
-
-});
-
-app.get("/bombones/resumen", (req, res, next) => {
-  // If you use GitRows as a module:
-  const Gitrows = require('gitrows');
-
-  // Init the GitRows client, you can provide options at this point, later or just run on the defaults
-  const gitrows = new Gitrows();
-
-  let path = 'https://github.com/NORA-CO/Datos-COVID19/blob/master/output/producto5/TotalesNacionales_T.csv';
-
-  gitrows.get(path)
-    .then((data) => {
-      //handle (Array/Object)data
-      var currentDate = new Date().toISOString().slice(0, 10);
-
-      var objectArray = data.map(function (item) {
-        return ({
-          fallecidos: item["Fallecidos"],
-          casosActivos: item["Casos activos confirmados"],
-          casosRecuperados: item["Casos confirmados recuperados"],
-          casosDiarios: item["Casos nuevos totales"],
-          //Aqui hay que hacer una lógica, que tenemos que definir
-          fecha: item["Fecha"]
-        });
-      }).filter(element => element.fecha == "2021-04-02");
-
-      return res.status(200).json({
-        message: objectArray,
-      });
-
-    })
-
-
-});
-
 app.get("/bombones/resumenComuna", async (req, res, next) => {
   // If you use GitRows as a module:
   const Gitrows = require('gitrows');
@@ -214,7 +22,7 @@ app.get("/bombones/resumenComuna", async (req, res, next) => {
 
   let path = 'https://github.com/NORA-CO/Datos-COVID19/blob/master/output/producto2/' + fechaISO + '-CasosConfirmados.csv';
 
-  var comuna = req.query.comuna;
+  var comuna = req.query.comuna.replace(" ", "").toUpperCase();
 
   var mensaje = {
     casosConfirmados: "0",
@@ -237,7 +45,7 @@ app.get("/bombones/resumenComuna", async (req, res, next) => {
       respuesta.map(function (item) {
         return ({
           casosConfirmados: item["Casos Confirmados"],
-          comuna: item["Comuna"]
+          comuna: item["Comuna"].replace(" ", "").toUpperCase()
         });
       }).filter(element => element.comuna == comuna)[0].casosConfirmados;
     };
@@ -249,7 +57,7 @@ app.get("/bombones/resumenComuna", async (req, res, next) => {
     respuesta.map(function (item) {
       return ({
         fallecidos: item[fechaArchivoISO],
-        comuna: item["Comuna"]
+        comuna: item["Comuna"].replace(" ", "").toUpperCase()
       });
     }).filter(element => element.comuna == comuna)[0].fallecidos;
 
@@ -259,21 +67,12 @@ app.get("/bombones/resumenComuna", async (req, res, next) => {
       respuesta.map(function (item) {
         return ({
           casosActivos: item[fechaArchivoISO],
-          comuna: item["Comuna"]
+          comuna: item["Comuna"].replace(" ", "").toUpperCase()
         });
       }).filter(element => element.comuna == comuna)[0].casosActivos;
   return res.status(200).json({
     message: mensaje,
   });
-});
-
-app.get("/bombones/resumenPrueba", async (req, res, next) => {
-
-  var mensaje = await asyncCall(req.query.path);
-  return res.status(200).json({
-    message: mensaje,
-  });
-
 });
 
 async function asyncCall(path) {
