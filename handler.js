@@ -26,7 +26,9 @@ app.get("/bombones/resumenComuna", async (req, res, next) => {
   if(typeof req.query.latlng !== 'undefined'){
     var latlng = req.query.latlng;
 
-    var url = `https://maps.googleapis.com/maps/api/geocode/json?latlng=${latlng}&key=AIzaSyDPtXmzPqlYzIj9v3VDBYG3lbD4RjCMrLI`;
+    var key = req.query.key;
+
+    var url = `https://maps.googleapis.com/maps/api/geocode/json?latlng=${latlng}&key=${key}`;
     
     respuesta = await asyncCallApi(url).then((value) =>{
       return value;
@@ -49,7 +51,7 @@ app.get("/bombones/resumenComuna", async (req, res, next) => {
     fecha: fechaISO,
     fechaDatosComunal: "20210501",
     nombreComuna: nombreComuna,
-    casosFallecidosAnt: "0",
+    fallecidosAnt: "0",
     casosActivosAnt: "0",
     fechaAnt: "20210501"
   };
