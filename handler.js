@@ -28,7 +28,7 @@ app.get("/bombones/resumenComuna", async (req, res, next) => {
 
     var key = req.query.key;
 
-    var url = `https://maps.googleapis.com/maps/api/geocode/json?latlng=${latlng}&key=${key}`;
+    var url = `https://maps.googleapis.com/maps/api/geocode/json?latlng=${latlng}&key=AIzaSyDPtXmzPqlYzIj9v3VDBYG3lbD4RjCMrLI`;
     
     respuesta = await asyncCallApi(url).then((value) =>{
       return value;
@@ -137,14 +137,14 @@ app.get("/bombones/resumenComuna", async (req, res, next) => {
 });
 
 function limpiarComuna(palabra){
-  palabra = palabra.replace(" ", "");
+  palabra = palabra.split(" ").join("");
   palabra = palabra.toUpperCase();
-  palabra = palabra.replace("Á", "A");
-  palabra = palabra.replace("É", "E");
-  palabra = palabra.replace("Í", "I");
-  palabra = palabra.replace("Ó", "O");
-  palabra = palabra.replace("Ú", "U");
-  palabra = palabra.replace("Ñ", "N");
+  palabra = palabra.split("Á").join("A");
+  palabra = palabra.split("É").join("E");
+  palabra = palabra.split("Í").join("I");
+  palabra = palabra.split("Ó").join("O");
+  palabra = palabra.split("Ú").join("U");
+  palabra = palabra.split("Ñ").join("N");
   return palabra;
 }
 
