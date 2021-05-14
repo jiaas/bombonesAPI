@@ -44,16 +44,25 @@ app.get("/bombones/resumenComuna", async (req, res, next) => {
   }
 
   var mensaje = {
-    casosConfirmados: "0",
-    casosActivos: "0",
-    fallecidos: "0",
-    etapa: "0",
-    fecha: fechaISO,
-    fechaDatosComunal: "20210501",
-    nombreComuna: nombreComuna,
-    fallecidosAnt: "0",
-    casosActivosAnt: "0",
-    fechaAnt: "20210501"
+    "casosConfirmados": "0",
+    "casosActivos": "0",
+    "casosFallecidos": "0",
+    "etapa": "0",
+    "fechaConsulta": fechaISO,
+    "fechaInforme": "2021-05-07",
+    "nombreComuna": nombreComuna,
+    "diferenciaHistoricaCasosFallecidos":{
+        "desde": "2021-05-10",
+        "hasta": "2021-05-13",
+        "diferencia": "0"
+    },
+    "diferenciaHistoricaCasosActivos":{
+        "desde": "2021-05-10",
+        "hasta": "2021-05-13",
+        "diferencia": "0"
+    },
+    "graficoCasosFallecidos":["0", "0", "0", "0", "0"],
+    "graficoCasosActivos":["0", "0", "0", "0", "0"]
   };
 
   var fechaArchivo = new Date();
@@ -77,45 +86,52 @@ app.get("/bombones/resumenComuna", async (req, res, next) => {
     };
   };
 
-  mensaje.fechaDatosComunal = fechaArchivoISO;
-
-  resta = resta - 1;
-  respuesta = null;
-
-  while(respuesta == null){
-    fechaArchivo.setDate(currentDate.getDate() + resta);
-    fechaArchivoISO = fechaArchivo.toISOString().slice(0, 10);
-    resta = resta - 1;
-    var respuesta = await asyncCall(path.replace(fechaISO,fechaArchivoISO));
-  };
-
-  mensaje.fechaAnt = fechaArchivoISO;
-
+  mensaje.fechaInforme = fechaArchivoISO;
+  var arrayUltimasFechas = ["2021-01-01", "2021-01-02", "2021-01-03", "2021-01-04", "2021-01-05"];
   path = 'https://github.com/NORA-CO/Datos-COVID19/blob/master/output/producto38/CasosFallecidosPorComuna.csv'
   respuesta = await asyncCall(path);
+  
+  var keysObjetoFallecidos = Object.keys(respuesta[0]);
+  var indiceArrayUltimasFechas = 0;
+  for(a = keysObjetoFallecidos.length - 5;a < keysObjetoFallecidos.length; a++){
+      arrayUltimasFechas[indiceArrayUltimasFechas] = keysObjetoFallecidos[a];
+      indiceArrayUltimasFechas++;
+  };
   var fallecidos = respuesta.map(function (item) {
     return ({
-      fallecidos: item[mensaje.fechaDatosComunal],
-      fallecidosAnt: item[mensaje.fechaAnt],
+      fallecidos: [item[arrayUltimasFechas[0]]
+                  ,item[arrayUltimasFechas[1]]
+                  ,item[arrayUltimasFechas[2]]
+                  ,item[arrayUltimasFechas[3]]
+                  ,item[arrayUltimasFechas[4]]],
       comuna: limpiarComuna(item["Comuna"])
     });
   }).filter(element => element.comuna == comuna)[0];
 
-  mensaje.fallecidos = fallecidos.fallecidos;
-  mensaje.fallecidosAnt = fallecidos.fallecidosAnt;
+  mensaje.casosFallecidos = fallecidos.fallecidos[4];
+  mensaje.graficoCasosFallecidos = fallecidos.fallecidos;
+  mensaje.diferenciaHistoricaCasosFallecidos.desde = arrayUltimasFechas[3];
+  mensaje.diferenciaHistoricaCasosFallecidos.hasta = arrayUltimasFechas[4];
+  mensaje.diferenciaHistoricaCasosFallecidos.diferencia = fallecidos.fallecidos[4] - fallecidos.fallecidos[3];
 
   path = 'https://github.com/NORA-CO/Datos-COVID19/blob/master/output/producto25/CasosActualesPorComuna.csv'
   respuesta = await asyncCall(path);
   var casosActivos = respuesta.map(function (item) {
     return ({
-      casosActivos: item[mensaje.fechaDatosComunal],
-      casosActivosAnt: item[mensaje.fechaAnt],
+      casosActivos: [item[arrayUltimasFechas[0]]
+                    ,item[arrayUltimasFechas[1]]
+                    ,item[arrayUltimasFechas[2]]
+                    ,item[arrayUltimasFechas[3]]
+                    ,item[arrayUltimasFechas[4]]],
       comuna: limpiarComuna(item["Comuna"])
     });
   }).filter(element => element.comuna == comuna)[0];
 
-  mensaje.casosActivos = casosActivos.casosActivos;
-  mensaje.casosActivosAnt = casosActivos.casosActivosAnt;
+  mensaje.casosActivos = casosActivos.casosActivos[4];
+  mensaje.graficoCasosActivos = casosActivos.casosActivos;
+  mensaje.diferenciaHistoricaCasosActivos.desde = arrayUltimasFechas[3];
+  mensaje.diferenciaHistoricaCasosActivos.hasta = arrayUltimasFechas[4];
+  mensaje.diferenciaHistoricaCasosActivos.diferencia = casosActivos.casosActivos[4] - casosActivos.casosActivos[3];
   
   var fechaEtapa = new Date();
   fechaEtapa.setDate(currentDate.getDate() -1);
