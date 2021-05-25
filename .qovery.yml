@@ -1,0 +1,11 @@
+---
+application:
+  name: "tupasoapi"
+  project: "TuPasoQovery"
+  organization: "QoveryCommunity"
+routers:
+- name: "main-tupasoapi"
+  routes:
+  - application_name: "tupasoapi"
+    paths:
+    - "/*"
