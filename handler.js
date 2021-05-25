@@ -50,6 +50,7 @@ app.get("/bombones/resumenComuna", async (req, res, next) => {
     "etapa": "0",
     "fechaConsulta": fechaISO,
     "fechaInforme": "2021-05-07",
+    "fechaInformeEtapa": "2021-05-07",
     "nombreComuna": nombreComuna,
     "diferenciaHistoricaCasosFallecidos":{
         "desde": "2021-05-10",
@@ -133,20 +134,18 @@ app.get("/bombones/resumenComuna", async (req, res, next) => {
   mensaje.diferenciaHistoricaCasosActivos.hasta = arrayUltimasFechas[4];
   mensaje.diferenciaHistoricaCasosActivos.diferencia = casosActivos.casosActivos[4] - casosActivos.casosActivos[3];
   
-  var fechaEtapa = new Date();
-  fechaEtapa.setDate(currentDate.getDate() -1);
-  var fechaEtapaISO = fechaEtapa.toISOString().slice(0, 10);
-
   path = 'https://github.com/NORA-CO/Datos-COVID19/blob/master/output/producto74/paso_a_paso.csv'
   respuesta = await asyncCall(path);
-  mensaje.etapa = //fechaEtapaISO;
+  var keysObjetoEtapa = Object.keys(respuesta[0]);
+  var fechaEtapa = keysObjetoEtapa[keysObjetoEtapa.length - 1];
+  mensaje.etapa = 
     respuesta.map(function (item) {
       return ({
-        etapa: item[fechaEtapaISO],
+        etapa: item[fechaEtapa],
         comuna: limpiarComuna(item["comuna_residencia"])
       });
     }).filter(element => element.comuna == comuna)[0].etapa;
-
+  mensaje.fechaInformeEtapa = fechaEtapa;
   return res.status(200).json({
     message: mensaje,
   });
